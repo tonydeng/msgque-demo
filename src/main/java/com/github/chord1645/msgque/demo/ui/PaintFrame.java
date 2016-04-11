@@ -2,6 +2,7 @@ package com.github.chord1645.msgque.demo.ui;
 
 
 import com.github.chord1645.msgque.demo.PaintData;
+import com.github.chord1645.msgque.demo.client.IPaintClient;
 import com.github.chord1645.msgque.demo.client.PaintClient;
 
 import javax.swing.*;
@@ -56,9 +57,9 @@ public class PaintFrame extends Frame implements ActionListener, MouseMotionList
     Button openPic, savePic;
     FileDialog openPicture, savePicture;
 
-    PaintClient client;
+    IPaintClient client;
 
-    public PaintFrame(String s, PaintClient client) {
+    public PaintFrame(String s, IPaintClient client) {
         super(s);
         this.client = client;
         addMouseMotionListener(this);
@@ -339,7 +340,7 @@ public class PaintFrame extends Frame implements ActionListener, MouseMotionList
 
 
     public void mouseDragged(MouseEvent e) {
-        list.add(new Apoint(e.getX() - 900, e.getY(), toolFlag));
+        client.append(new Apoint(e.getX() - 900, e.getY(), toolFlag));
 //        System.out.println("mouseDragged");
         Point1 p1;
         switch (toolFlag) {
@@ -376,10 +377,10 @@ public class PaintFrame extends Frame implements ActionListener, MouseMotionList
     }
 
 
-    List<Apoint> list = new ArrayList<>();
+
 
     public void mousePressed(MouseEvent e) {
-        list.clear();
+        client.clearCache();
 //        System.out.println("mousePressed");
         Point1 p2;
         switch (toolFlag) {
@@ -413,10 +414,7 @@ public class PaintFrame extends Frame implements ActionListener, MouseMotionList
 
 
     public void mouseReleased(MouseEvent e) {
-        list.add(new Apoint(-1, -1, 6));
-        PaintData paintData = new PaintData();
-        paintData.setData(list);
-        client.write(paintData);
+        client.flushCache();
 //        System.out.println("mouseReleased");
         Point1 p3;
         switch (toolFlag) {

@@ -44,7 +44,7 @@ public class PaintServer {
 
 
     public static void main(String[] args) throws Exception {
-        new PaintServer().bind(9093);
+        new PaintServer().bind(9999);
     }
 
 

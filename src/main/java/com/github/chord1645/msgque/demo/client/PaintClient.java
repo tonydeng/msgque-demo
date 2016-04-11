@@ -4,6 +4,7 @@ import com.github.chord1645.msgque.demo.PaintData;
 import com.github.chord1645.msgque.demo.client.handle.PaintClientHandler;
 import com.github.chord1645.msgque.demo.codec.MsgpackDecoder;
 import com.github.chord1645.msgque.demo.codec.MsgpackEncoder;
+import com.github.chord1645.msgque.demo.ui.Apoint;
 import com.github.chord1645.msgque.demo.ui.PaintFrame;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -15,10 +16,17 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class PaintClient {
+import java.util.ArrayList;
+import java.util.List;
+
+public class PaintClient implements IPaintClient {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     public static void main(String[] args) throws Exception {
-        new PaintClient().connect(9093, "127.0.0.1");
+        new PaintClient().connect(9999, "localhost");
     }
 
     PaintFrame paintFrame;
@@ -52,12 +60,33 @@ public class PaintClient {
             serverFuture = b.connect(host, port).sync(); // (5)
             serverFuture.channel().closeFuture().sync();
             System.currentTimeMillis();
+        }catch(Throwable e){
+            logger.error("start ex",e);
         } finally {
             group.shutdownGracefully();
         }
     }
-
+    List<Apoint> list = new ArrayList<>();
     public void write(PaintData paintData) {
         serverFuture.channel().writeAndFlush(paintData);
+    }
+
+    @Override
+    public void clearCache() {
+        list.clear();
+    }
+
+    @Override
+    public void flushCache() {
+        list.add(new Apoint(-1, -1, 6));
+        PaintData paintData = new PaintData();
+        paintData.setData(list);
+        this.write(paintData);
+    }
+
+    @Override
+    public void append(Apoint apoint) {
+
+        list.add(apoint);
     }
 }
