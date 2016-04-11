@@ -101,7 +101,7 @@ public class PublishTest {
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss SSS");
-    static  public  int Qos =1;
+    static  public  int Qos =2;
     @Test
     public void test() throws Exception {
         CountDownLatch countDown = new CountDownLatch(3);
@@ -113,22 +113,25 @@ public class PublishTest {
                     Thread.sleep(1000);
                     System.out.println("m_publisher.publish");
                     for (int i = 0; i < 10; i++) {
-//                        MqttMessage mqttMessage = new MqttMessage(sdf.format(new Date()).getBytes());
-                        MqttMessage mqttMessage = new MqttMessage(String.valueOf(new Date().getTime()).getBytes());
-                        mqttMessage.setQos(Qos);
+                        MqttMessage mqttMessage = buildMsg();
                         m_publisher.publish("/topic", mqttMessage);
                     }
-//                    System.out.println();
-//                    m_publisher.publish("/topic", "Hello world MQTT QoS0".getBytes(), 2, false);
                 } catch (MqttException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
+
+
         }.start();
         System.out.println("start()");
         countDown.await(3, TimeUnit.SECONDS);
     }
 
+    private MqttMessage buildMsg() {
+        MqttMessage mqttMessage = new MqttMessage(String.valueOf(new Date().getTime()).getBytes());
+        mqttMessage.setQos(Qos);
+        return mqttMessage;
+    }
 }
