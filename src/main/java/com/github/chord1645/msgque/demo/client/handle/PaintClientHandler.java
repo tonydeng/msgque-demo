@@ -1,6 +1,6 @@
 package com.github.chord1645.msgque.demo.client.handle;
 
-import com.github.chord1645.msgque.demo.PaintData;
+import com.github.chord1645.msgque.demo.model.PaintData;
 import com.github.chord1645.msgque.demo.ui.PaintFrame;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

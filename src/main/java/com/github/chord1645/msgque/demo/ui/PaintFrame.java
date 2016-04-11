@@ -1,9 +1,7 @@
 package com.github.chord1645.msgque.demo.ui;
 
 
-import com.github.chord1645.msgque.demo.PaintData;
 import com.github.chord1645.msgque.demo.client.IPaintClient;
-import com.github.chord1645.msgque.demo.client.PaintClient;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +10,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 

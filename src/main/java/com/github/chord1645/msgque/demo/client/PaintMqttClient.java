@@ -1,6 +1,6 @@
 package com.github.chord1645.msgque.demo.client;
 
-import com.github.chord1645.msgque.demo.PaintData;
+import com.github.chord1645.msgque.demo.model.PaintData;
 import com.github.chord1645.msgque.demo.ui.Apoint;
 import com.github.chord1645.msgque.demo.ui.PaintFrame;
 import org.eclipse.paho.client.mqttv3.*;
@@ -10,12 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class PaintMqttClient implements IPaintClient {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -47,7 +43,7 @@ public class PaintMqttClient implements IPaintClient {
 
     List<Apoint> list = new ArrayList<>();
     MessagePack messagePack = new MessagePack();
-    int qos = 2;
+    int qos = 1;
 
     @Override
     public void clearCache() {
@@ -88,6 +84,8 @@ public class PaintMqttClient implements IPaintClient {
         public void messageArrived(String topic, MqttMessage message) throws Exception {
             logger.info("messageArrived:{}", topic);
             PaintData paintData = messagePack.read(message.getPayload(), PaintData.class);
+            logger.info("tranport topic={} len={} cost : {}ms", topic, paintData.getData().size(), System.currentTimeMillis() - paintData.getDate().getTime());
+
             paintFrame.addData(paintData.getData());
         }
 

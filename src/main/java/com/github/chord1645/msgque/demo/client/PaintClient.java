@@ -1,6 +1,6 @@
 package com.github.chord1645.msgque.demo.client;
 
-import com.github.chord1645.msgque.demo.PaintData;
+import com.github.chord1645.msgque.demo.model.PaintData;
 import com.github.chord1645.msgque.demo.client.handle.PaintClientHandler;
 import com.github.chord1645.msgque.demo.codec.MsgpackDecoder;
 import com.github.chord1645.msgque.demo.codec.MsgpackEncoder;

@@ -1,6 +1,6 @@
 package com.github.chord1645.msgque.demo.codec;
 
-import com.github.chord1645.msgque.demo.PaintData;
+import com.github.chord1645.msgque.demo.model.PaintData;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
