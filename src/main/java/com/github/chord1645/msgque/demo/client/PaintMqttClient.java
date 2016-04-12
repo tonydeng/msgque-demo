@@ -16,9 +16,14 @@ import java.util.List;
 public class PaintMqttClient implements IPaintClient {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    IMqttClient iclient;
-    MqttClientPersistence dataStore;
-    String topic = "/painter";
+    private PaintFrame paintFrame;
+    private IMqttClient iclient;
+    private MqttClientPersistence dataStore;
+    private String topic = "/painter";
+
+    private final List<Apoint> list = new ArrayList<>();
+    private final MessagePack messagePack = new MessagePack();
+    private final int qos = 1;
 
     public PaintMqttClient() {
         paintFrame = new PaintFrame("画图程序", this);
@@ -38,18 +43,10 @@ public class PaintMqttClient implements IPaintClient {
 
     }
 
-    PaintFrame paintFrame;
-
-
-    List<Apoint> list = new ArrayList<>();
-    MessagePack messagePack = new MessagePack();
-    int qos = 1;
-
     @Override
     public void clearCache() {
         list.clear();
     }
-
 
     @Override
     public void flushCache() {

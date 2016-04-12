@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PaintMqttServer extends Server {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger logger = LoggerFactory.getLogger(PaintMqttServer.class);
 
     public static void main(String[] args) throws IOException {
         Properties cfg = new Properties();
@@ -17,7 +17,7 @@ public class PaintMqttServer extends Server {
         cfg.put(BrokerConstants.PORT_PROPERTY_NAME, "9999");
         final PaintMqttServer server = new PaintMqttServer();
         server.startServer(cfg);
-        System.out.println("Server started, version 0.8");
+        logger.info("Server started, version 0.8");
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 server.stopServer();
